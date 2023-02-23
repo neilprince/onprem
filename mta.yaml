@@ -1,0 +1,66 @@
+_schema-version: '3.1'
+ID: EAM_ONPREM
+version: 1.0.0
+description: "A simple CAP project."
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npx -p @sap/cds-dk cds build --production
+modules:
+  - name: EAM_ONPREM-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      buildpack: nodejs_buildpack
+    build-parameters:
+      builder: npm-ci
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: EAM_ONPREM-db
+      - name: EAM_ONPREM-dest
+      - name: EAM_ONPREM-conn
+      - name: EAM_ONPREM-auth
+
+  - name: EAM_ONPREM-db-deployer
+    type: hdb
+    path: gen/db
+    parameters:
+      buildpack: nodejs_buildpack
+    requires:
+      - name: EAM_ONPREM-db
+
+resources:
+  - name: EAM_ONPREM-db
+    type: com.sap.xs.hdi-container
+    properties:
+      hdi-container-name: ${service-name}
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+  - name: EAM_ONPREM-dest
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service-plan: lite
+      service: destination
+      config:
+        enable-xsuaa-support: true
+  - name: EAM_ONPREM-conn
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: connectivity
+      service-plan: lite
+  - name: EAM_ONPREM-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: EAM_ONPREM-${org}-${space}
+        tenant-mode: dedicated

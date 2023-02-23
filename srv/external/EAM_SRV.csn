@@ -1,0 +1,71 @@
+{
+  "meta": {
+    "creator": "cds-dk 6.3.1"
+  },
+  "$version": "2.0",
+  "definitions": {
+    "EAM_SRV": {
+      "kind": "service",
+      "@cds.external": true,
+      "@m.IsDefaultEntityContainer": "true",
+      "@sap.supported.formats": "atom json xlsx"
+    },
+    "EAM_SRV.ROLESSet": {
+      "kind": "entity",
+      "@cds.external": true,
+      "@cds.persistence.skip": true,
+      "@sap.creatable": "false",
+      "@sap.searchable": "true",
+      "@sap.content.version": "1",
+      "elements": {
+        "User": {
+          "key": true,
+          "type": "cds.String",
+          "length": 12,
+          "@sap.unicode": "false",
+          "@sap.label": "User",
+          "@sap.creatable": "false",
+          "notNull": true
+        },
+        "AgrName": {
+          "key": true,
+          "type": "cds.String",
+          "length": 30,
+          "@sap.unicode": "false",
+          "@sap.label": "Role",
+          "@sap.creatable": "false",
+          "notNull": true
+        },
+        "FromDat": {
+          "type": "cds.Timestamp",
+          "@odata.Type": "Edm.DateTime",
+          "@odata.Precision": 7,
+          "@sap.unicode": "false",
+          "@sap.label": "Date",
+          "@sap.creatable": "false",
+          "@sap.filterable": "false",
+          "notNull": true
+        },
+        "ToDat": {
+          "type": "cds.Timestamp",
+          "@odata.Type": "Edm.DateTime",
+          "@odata.Precision": 7,
+          "@sap.unicode": "false",
+          "@sap.label": "Date",
+          "@sap.creatable": "false",
+          "@sap.filterable": "false",
+          "notNull": true
+        },
+        "AgrText": {
+          "type": "cds.String",
+          "length": 80,
+          "@sap.unicode": "false",
+          "@sap.label": "Short Description",
+          "@sap.creatable": "false",
+          "@sap.filterable": "false",
+          "notNull": true
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+GET http://localhost:4004/eam-provisioning/roles?$filter=User eq 'EAMTEST'
+Content-Type: application/json
+X-CSRF-Token: Fetch
+
+
+### Delete EAM Role 1
+DELETE  http://localhost:4004/v2/eam-provisioning/roles(User='EAMTEST',AgrName='Z_EAM_ROLE1')
+Content-Type: application/json
+
+### Delete EAM Role 2
+DELETE  http://localhost:4004/v2/eam-provisioning/roles(User='EAMTEST',AgrName='Z_EAM_ROLE2')
+Content-Type: application/json
+
+### Add role
+PUT http://localhost:4004/v2/eam-provisioning/roles(User='EAMTEST',AgrName='Z_EAM_ROLE1')
+Content-Type: application/json
+
+{
+    "User" : "EAMTEST",
+    "AgrName" : "Z_EAM_ROLE1",
+    "FromDat" : "2023-02-23T00:00:00",
+    "ToDat" : "2023-02-23T00:00:00"
+}
+
+### Extend role
+PUT http://localhost:4004/v2/eam-provisioning/roles(User='EAMTEST',AgrName='Z_EAM_ROLE1')
+Content-Type: application/json
+
+{
+    "User" : "EAMTEST",
+    "AgrName" : "Z_EAM_ROLE1",
+    "FromDat" : "2023-02-23T00:00:00",
+    "ToDat" : "2023-02-28T00:00:00"
+}
