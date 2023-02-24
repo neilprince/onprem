@@ -103,7 +103,7 @@ module.exports = async (srv) => {
 
             //Construct axios call
             let hostname = await _getHostName(req);
-            let url = `https://${hostname}/v2/${configItem.sourceSrv}/${configItem.sourceEntity}(User='${user}',AgrName='${role}')`;
+            let url = `${hostname}/v2/${configItem.sourceSrv}/${configItem.sourceEntity}(User='${user}',AgrName='${role}')`;
             let header = await _getHeader(req);
             console.log(url);
             let result = await axios.put(url, payload, header);
@@ -135,7 +135,7 @@ module.exports = async (srv) => {
 
             //Construct axios call
             let hostname = await _getHostName(req);
-            let url = `https://${hostname}/v2/${configItem.sourceSrv}/${configItem.sourceEntity}(User='${user}',AgrName='${role}')`;
+            let url = `${hostname}/v2/${configItem.sourceSrv}/${configItem.sourceEntity}(User='${user}',AgrName='${role}')`;
             let header = await _getHeader(req);
             console.log(url);
             let result = await axios.delete(url, header);
@@ -156,8 +156,13 @@ async function _getUrl(configItem, req) {
 
 async function _getHostName(req) {
     //When testing locally, you will need to uncomment the hardcoded url to a deployed app and comment out the second line - do not commit this change
-    let hostname = 'dev-ap10-neil-eam-onprem-srv.cfapps.ap10.hana.ondemand.com';
-    //let hostname = req.headers.host;
+    //let hostname = 'dev-ap10-neil-eam-onprem-srv.cfapps.ap10.hana.ondemand.com';
+    let hostname = req.headers.host;
+    if (req.headers.host.indexOf('localhost') !== -1) {
+        hostname = `http://${hostname}`;
+    } else {
+        hostname = `https://${hostname}`;
+    }
     return hostname;
 }
 
