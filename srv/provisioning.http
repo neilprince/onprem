@@ -1,3 +1,5 @@
+@numRoles = 2
+
 GET http://localhost:4004/eam-provisioning/roles?$filter=User eq 'EAMTEST'
 Content-Type: application/json
 X-CSRF-Token: Fetch
@@ -32,3 +34,20 @@ Content-Type: application/json
     "FromDat" : "2023-02-23T00:00:00",
     "ToDat" : "2023-02-28T00:00:00"
 }
+
+### Provision roles action
+POST http://localhost:4004/v2/eam-provisioning/provisionRoles
+Content-Type: application/json
+
+{
+    "eamRecord": {{numRoles}}
+}
+
+### De-Provision roles action
+POST http://localhost:4004/v2/eam-provisioning/deProvisionRoles
+Content-Type: application/json
+
+{
+    "eamRecord": {{numRoles}}
+}
+
